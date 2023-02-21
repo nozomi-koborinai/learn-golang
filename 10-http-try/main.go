@@ -22,8 +22,19 @@ func main() {
 }
 
 func omikujiHandler(w http.ResponseWriter, r *http.Request) {
+	// リクエストパラメータの取得
+	params := r.URL.Query()
+	name := params.Get("p")
+
+	// おみくじの結果をランダムに決定
 	result := drawOmikuji()
-	fmt.Fprintf(w, "今日の運勢は%sです。\n", result)
+
+	// 結果の表示
+	if name == "Gopher" {
+		fmt.Fprintln(w, "Gopherさんの運勢は「大吉」です！")
+	} else {
+		fmt.Fprintf(w, "あなたの運勢は「%s」です。\n", result)
+	}
 }
 
 func drawOmikuji() string {
